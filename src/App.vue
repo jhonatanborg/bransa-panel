@@ -1,32 +1,81 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar app color="primary" dark>
+      <div class="d-flex align-center">
+
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <HelloWorld />
+    </v-main>
+    <v-snackbar
+      absolute
+      top
+      right
+      color="success"
+      elevation="24"
+      multi-line
+      :value="updateExists"
+      :timeout="-1"
+    >
+      <span>Nova versão disponível!</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="refreshApp">
+          Atualizar
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import HelloWorld from './components/HelloWorld'
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  components: {
+    HelloWorld
+  },
+  created () {
+    document.addEventListener('swUpdated', this.showRefreshUI, { once: true })
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (this.refreshing) return
+        this.refreshing = true
+        window.location.reload()
+      })
+    }
+  },
+  data: () => ({
+    refreshing: false,
+    registration: null,
+    updateExists: false
+  }),
+  methods: {
+    showRefreshUI (e) {
+      this.registration = e.detail
+      this.updateExists = true
+    },
+    refreshApp () {
+      this.updateExists = false
+      if (!this.registration || !this.registration.waiting) {
+        return
+      }
+      this.registration.waiting.postMessage('skipWaiting')
+    }
+  }
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
