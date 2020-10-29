@@ -13,7 +13,7 @@
         <v-list-item-content>
           <v-list-item-title v-text="product.produto_descricao">
           </v-list-item-title>
-          <v-list-item-subtitle v-text="product.produto_valor">
+          <v-list-item-subtitle v-text="convertMoney(product.produto_valor)">
           </v-list-item-subtitle>
           <v-list-item-subtitle v-text="'CÓD:' + product.produto_codigo">
           </v-list-item-subtitle>
@@ -33,10 +33,13 @@
 </template>
 
 <script>
+import Mixins from "@/mixins/mixins.js";
+
 export default {
   props: {
     product: Object,
   },
+  mixins: [Mixins],
 };
 </script>
 
