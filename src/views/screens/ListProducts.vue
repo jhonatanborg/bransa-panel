@@ -1,0 +1,158 @@
+<template>
+  <div>
+    <v-row dense justify="start" align="center" no-gutters>
+      <v-col cols="12">
+        <small>Pesquisar</small>
+        <v-text-field
+          solo
+          v-model="search"
+          :loading="$store.state.loading"
+          :search-input.sync="search"
+          hide-no-data
+          hide-selected
+          placeholder="Buscar por categoria"
+          append-icon="mdi-magnify"
+          return-object
+        ></v-text-field>
+      </v-col>
+      <v-col class="py-0" cols="12">
+        <v-row dense justify="start" align="center">
+          <v-col cols="auto">
+            <v-chip
+              small
+              :loading="$store.state.loading"
+              outlined
+              v-if="filter.start !== 1"
+              color="primary"
+              @click="getProducts(filter, true)"
+              >Voltar</v-chip
+            >
+          </v-col>
+          <v-col
+            v-for="(categorie, index) in categories"
+            :key="index"
+            link
+            cols="auto"
+            @click="categorieFilter = index"
+          >
+            <v-chip
+              small
+              link
+              dark
+              :color="categorieFilter === index ? 'red lighten-1' : 'grey'"
+            >
+              <b v-text="categorie.produto_grupo"></b>
+            </v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip
+              :loading="$store.state.loading"
+              color="primary"
+              @click="getProducts(filter)"
+              small
+              link
+              dark
+              >Avançar</v-chip
+            >
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+    <div class="py-5">
+      <span> Seus produtos: </span>
+    </div>
+    <v-row v-if="selectCategorie">
+      <v-col
+        v-for="(product, index) in selectCategorie.produtos"
+        :key="index"
+        cols="12"
+        sm="6"
+      >
+        <CardProduct :product="product" />
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+import CardProduct from "@/components/product/CardProduct.vue";
+export default {
+  components: {
+    CardProduct,
+  },
+  mounted() {
+    this.getProducts();
+  },
+  data() {
+    return {
+      descriptionLimit: 60,
+      entries: [],
+      isLoading: false,
+      model: null,
+      search: null,
+      links: ["Dashboard", "Messages", "Profile", "Updates"],
+      filter: {
+        start: 1,
+        end: 5,
+      },
+      categorieFilter: 0,
+    };
+  },
+  watch: {
+    search(val) {
+      if (val) {
+        this.$store.dispatch("product/request", {
+          state: "produtos",
+          method: "POST",
+          data: {
+            produto_grupo: val,
+          },
+          url: "/category/",
+          noMsg: false,
+        });
+      }
+    },
+  },
+  computed: {
+    categories() {
+      return this.$store.state.product.produtos || [];
+    },
+    selectCategorie() {
+      if (this.categories) {
+        return this.categories[this.categorieFilter];
+      }
+      return 0;
+    },
+  },
+  methods: {
+    getProducts(filter, minus) {
+      let url;
+      if (!minus && filter) {
+        filter = {
+          start: parseInt(filter.start) + 1,
+          end: 5,
+        };
+        this.filter = filter;
+        url = `/products-paginate/${filter.start}/${filter.end}`;
+      } else if (!minus && !filter) {
+        url = `/products-paginate/${this.filter.start}/${this.filter.end}`;
+      } else if (filter.start !== 1) {
+        filter = {
+          start: parseInt(filter.start) - 1,
+          end: 5,
+        };
+        this.filter = filter;
+        url = `/products-paginate/${filter.start}/${filter.end}`;
+      }
+      this.$store.dispatch("product/request", {
+        state: "produtos",
+        method: "GET",
+        url,
+        noMsg: false,
+      });
+    },
+  },
+};
+</script>
+
+<style></style>
