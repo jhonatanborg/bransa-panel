@@ -17,6 +17,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/sessao",
+    name: "session",
+    component: () => import("@/views/screens/Session.vue"),
+  },
 ];
 
 const router = new VueRouter({

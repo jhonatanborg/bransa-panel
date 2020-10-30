@@ -6,7 +6,7 @@
           <v-img
             height="100px"
             width="100%"
-            src="https://apoioentrega.vteximg.com.br/arquivos/ids/461444-1000-1000/189021.jpg?v=637352770502370000"
+            src="https://www.distribuidoracaue.com.br/media/catalog/product/cache/1/thumbnail/600x800/9df78eab33525d08d6e5fb8d27136e95/r/e/refrigerante-coca-cola-2-litros.jpg"
           >
           </v-img>
         </v-list-item-avatar>
