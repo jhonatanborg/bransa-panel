@@ -7,8 +7,14 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
     component: Main,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("token")) {
+        next();
+      } else {
+        next({ name: "session" });
+      }
+    },
     children: [
       {
         path: "/",

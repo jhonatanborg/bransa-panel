@@ -1,12 +1,16 @@
 <template>
   <v-app id="inspire">
     <router-view></router-view>
+    <MessageError />
   </v-app>
 </template>
 
 <script>
+import MessageError from "@/components/shared/MessageError.vue";
 export default {
-  components: {},
+  components: {
+    MessageError,
+  },
 };
 </script>
 <style>

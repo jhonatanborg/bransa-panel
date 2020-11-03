@@ -68,17 +68,24 @@
         cols="12"
         sm="6"
       >
-        <CardProduct :product="product" />
+        <CardProduct
+          :product="product"
+          :index="index"
+          :indexCategorie="categorieFilter"
+        />
       </v-col>
     </v-row>
+    <DialogUpload />
   </div>
 </template>
 
 <script>
 import CardProduct from "@/components/product/CardProduct.vue";
+import DialogUpload from "@/components/product/DialogUpload.vue";
 export default {
   components: {
     CardProduct,
+    DialogUpload,
   },
   mounted() {
     this.getProducts();
@@ -108,7 +115,7 @@ export default {
             produto_grupo: val,
           },
           url: "/category/",
-          noMsg: false,
+          noMsg: true,
         });
       }
     },
@@ -148,7 +155,7 @@ export default {
         state: "produtos",
         method: "GET",
         url,
-        noMsg: false,
+        noMsg: true,
       });
     },
   },

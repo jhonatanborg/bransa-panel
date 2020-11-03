@@ -4,13 +4,31 @@ import mutationsGlobal from "../mutations";
 const product = {
   namespaced: true,
   state: () => ({
-    DialogProduct: false,
+    dialogProduct: false,
     produtos: [],
-    productModal: null,
+    editProduct: null,
   }),
 
   getters: {},
-  mutations: { ...mutationsGlobal },
+  mutations: {
+    setProduct(state, data) {
+      if (
+        state.produtos[state.editProduct.indexCategorie].produtos[
+          state.editProduct.index
+        ].image
+      ) {
+        state.produtos[state.editProduct.indexCategorie].produtos[
+          state.editProduct.index
+        ].image.image = data;
+      } else {
+        state.produtos[state.editProduct.indexCategorie].produtos[
+          state.editProduct.index
+        ].image = { image: data };
+      }
+    },
+
+    ...mutationsGlobal,
+  },
   actions: { ...actionsGlobal },
 };
 

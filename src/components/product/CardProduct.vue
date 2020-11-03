@@ -6,9 +6,11 @@
           <v-img
             height="100px"
             width="100%"
-            src="https://www.distribuidoracaue.com.br/media/catalog/product/cache/1/thumbnail/600x800/9df78eab33525d08d6e5fb8d27136e95/r/e/refrigerante-coca-cola-2-litros.jpg"
+            v-if="product.image"
+            :src="image(product.image.image)"
           >
           </v-img>
+          <v-img height="100px" width="100%" v-else :src="image(null)"> </v-img>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title v-text="product.produto_descricao">
@@ -25,7 +27,12 @@
           class="d-flex pa-5 transition-fast-in-fast-out primary v-card--reveal display-3 white--text"
           style="height: 100%"
         >
-          <v-icon size="40" color="white">mdi-image-edit-outline</v-icon>
+          <v-icon
+            @click="edit(product, index, indexCategorie)"
+            size="40"
+            color="white"
+            >mdi-image-edit-outline</v-icon
+          >
         </div>
       </v-expand-transition>
     </v-card>
@@ -38,8 +45,28 @@ import Mixins from "@/mixins/mixins.js";
 export default {
   props: {
     product: Object,
+    index: Number,
+    indexCategorie: Number,
   },
   mixins: [Mixins],
+  methods: {
+    edit(product, index, indexCategorie) {
+      console.log(indexCategorie);
+      product.index = index;
+      product.indexCategorie = indexCategorie;
+      this.$store.commit("product/request", ["editProduct", product]);
+      this.$store.commit("product/request", ["dialogProduct", true]);
+    },
+    image(image) {
+      if (image && image.indexOf("blob") >= 0) {
+        return image;
+      } else if (!image) {
+        return "https://i.imgur.com/ha7VmCQ.png";
+      } else {
+        return this.$store.state.server + image;
+      }
+    },
+  },
 };
 </script>
 

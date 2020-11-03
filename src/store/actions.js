@@ -25,7 +25,7 @@ const actions = {
     context.commit("loading", true, { root: true });
 
     axios.defaults.headers = null || {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `${localStorage.getItem("token")}`,
     };
 
     const config = {

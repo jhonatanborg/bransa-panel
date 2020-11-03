@@ -13,6 +13,7 @@ export default new Vuex.Store({
     exitModal: false,
     loading: false,
     server: process.env.VUE_APP_BACKEND,
+    message: null,
   },
   mutations: {
     loading(state, data) {

@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider class="my-2"></v-divider>
-        <v-list-item link color="grey lighten-4">
+        <v-list-item link color="grey lighten-4" @click="logout()">
           <v-list-item-content>
             <v-list-item-title> Sair </v-list-item-title>
           </v-list-item-content>
@@ -36,17 +36,23 @@ export default {
         icon: "mdi-cart",
         route: "list-products",
       },
-      {
-        title: "Usuários",
-        icon: "mdi-account-multiple",
-        route: "users",
-      },
-      {
-        title: "Mihha empresa",
-        icon: "mdi-home-outline",
-        route: "about",
-      },
+      // {
+      //   title: "Usuários",
+      //   icon: "mdi-account-multiple",
+      //   route: "users",
+      // },
+      // {
+      //   title: "Mihha empresa",
+      //   icon: "mdi-home-outline",
+      //   route: "about",
+      // },
     ],
   }),
+  methods: {
+    logout() {
+      localStorage.clear();
+      window.location.reload();
+    },
+  },
 };
 </script>
