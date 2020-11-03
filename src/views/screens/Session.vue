@@ -77,7 +77,6 @@ export default {
           })
           .catch((error) => {
             this.$store.commit("message", [error, "error"]);
-            console.log(error);
           });
       }
     },

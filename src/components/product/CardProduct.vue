@@ -51,7 +51,6 @@ export default {
   mixins: [Mixins],
   methods: {
     edit(product, index, indexCategorie) {
-      console.log(indexCategorie);
       product.index = index;
       product.indexCategorie = indexCategorie;
       this.$store.commit("product/request", ["editProduct", product]);
