@@ -1,42 +1,28 @@
 <template>
-  <v-hover v-slot="{ hover }">
-    <v-card link flat outlined>
-      <v-list-item two-line>
-        <v-list-item-avatar tile size="100">
-          <v-img
-            height="100px"
-            width="100%"
-            v-if="product.image"
-            :src="image(product.image.image)"
-          >
-          </v-img>
-          <v-img height="100px" width="100%" v-else :src="image(null)"> </v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title v-text="product.produto_descricao">
-          </v-list-item-title>
-          <v-list-item-subtitle v-text="convertMoney(product.produto_valor)">
-          </v-list-item-subtitle>
-          <v-list-item-subtitle v-text="'CÓD:' + product.produto_codigo">
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-expand-transition>
-        <div
-          v-if="hover"
-          class="d-flex pa-5 transition-fast-in-fast-out primary v-card--reveal display-3 white--text"
-          style="height: 100%"
+  <v-card @click="edit(product, index, indexCategorie)" link flat outlined>
+    <v-list-item two-line>
+      <v-list-item-avatar tile size="100">
+        <v-img
+          height="100px"
+          width="100%"
+          v-if="product.produto_imagem"
+          :src="image(product.produto_imagem)"
         >
-          <v-icon
-            @click="edit(product, index, indexCategorie)"
-            size="40"
-            color="white"
-            >mdi-image-edit-outline</v-icon
-          >
+        </v-img>
+        <v-img height="100px" width="100%" v-else :src="image(null)"> </v-img>
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <div>
+          <span class="title-product" v-text="product.produto_descricao">
+          </span>
         </div>
-      </v-expand-transition>
-    </v-card>
-  </v-hover>
+        <v-list-item-subtitle v-text="convertMoney(product.produto_valor)">
+        </v-list-item-subtitle>
+        <v-list-item-subtitle v-text="'CÓD:' + product.produto_codigo">
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+  </v-card>
 </template>
 
 <script>
@@ -78,5 +64,13 @@ export default {
   position: absolute;
   width: 100%;
   border-radius: 4px;
+}
+.title-product {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  font-size: 14px;
 }
 </style>

@@ -1,13 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Main from "../views/Main.vue";
+import main from "../views/Main.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    component: Main,
+    name: "main",
+    component: main,
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("token")) {
         next();
@@ -20,6 +21,11 @@ const routes = [
         path: "/",
         name: "list-products",
         component: () => import("@/views/screens/ListProducts.vue"),
+      },
+      {
+        path: "/produtos-destaques",
+        name: "featured",
+        component: () => import("@/views/screens/FeaturedProducts.vue"),
       },
     ],
   },

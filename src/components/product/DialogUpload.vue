@@ -23,16 +23,15 @@
             </div>
           </v-col>
         </v-row>
-        <v-img height="300px" :src="returnImage(imageProduct)">
-          <v-row class="fill-height" align="center" justify="center">
-            <a
-              ><div class="text-center">
-                <v-avatar
-                  @click="setImage"
-                  link
-                  size="120"
-                  color="primary lighten-2"
-                >
+        <a
+          ><v-img
+            @click="setImage"
+            height="300px"
+            :src="returnImage(imageProduct)"
+          >
+            <v-row class="fill-height" align="center" justify="center">
+              <a
+                ><div class="text-center">
                   <input
                     hidden
                     id="image-upload"
@@ -42,17 +41,34 @@
                     flat
                     accept="image/*"
                     type="file"
-                  />
-                  <v-icon color="primary " size="50">mdi-image-plus</v-icon>
-                </v-avatar>
-              </div></a
-            >
-          </v-row>
-        </v-img>
+                  /></div
+              ></a>
+            </v-row> </v-img
+        ></a>
         <div class="my-5">
-          <v-btn @click="uploadImage" large block color="primary"
-            >Salvar Imagem</v-btn
+          <v-btn
+            v-if="productSelected.produto_destaque === 'NAO'"
+            class="my-2"
+            depressed
+            large
+            block
+            @click="toggleFeatured('SIM')"
+            outlined
+            color="primary"
+            >Colocar em destaque</v-btn
           >
+          <v-btn
+            v-else
+            class="my-2"
+            depressed
+            large
+            block
+            outlined
+            @click="toggleFeatured('NAO')"
+            color="error"
+            >Remover destaque</v-btn
+          >
+          <v-btn @click="uploadImage" large block color="primary">Salvar</v-btn>
         </div>
       </div>
     </v-card>
@@ -80,7 +96,9 @@ export default {
     },
   },
   methods: {
-    validate() {},
+    setProductFeatured(value) {
+      this.productSelected.produto_destaque = value;
+    },
     setImage() {
       document.getElementById("image-upload").click();
     },
@@ -98,17 +116,13 @@ export default {
         this.imageProduct = this.imageUrl;
         return this.imageUrl;
       } else if (
-        this.productSelected.image &&
-        this.productSelected.image.image &&
-        this.productSelected.image.image.indexOf("blob") >= 0
+        this.productSelected.produto_imagem &&
+        this.productSelected.produto_imagem.indexOf("blob") >= 0
       ) {
-        return this.productSelected.image.image;
-      } else if (
-        this.productSelected.image &&
-        this.productSelected.image.image
-      ) {
+        return this.productSelected.produto_imagem;
+      } else if (this.productSelected.produto_imagem) {
         return (this.imageProduct =
-          this.$store.state.server + this.productSelected.image.image);
+          this.$store.state.server + this.productSelected.produto_imagem);
       } else {
         return "https://i.imgur.com/ha7VmCQ.png";
       }
@@ -126,6 +140,23 @@ export default {
           noMsg: true,
         })
         .then((value) => {
+          this.$store.commit("product/setProduct", this.imageProduct);
+          this.close();
+        });
+    },
+    toggleFeatured(produto_destaque) {
+      this.$store
+        .dispatch("user/request", {
+          method: "PUT",
+          data: {
+            produto_id2: this.productSelected.produto_id2,
+            produto_destaque,
+          },
+          url: "/products/" + this.productSelected.produto_id,
+          noMsg: true,
+        })
+        .then((value) => {
+          this.productSelected.produto_destaque = value.data.produto_destaque;
           this.$store.commit("product/setProduct", this.imageProduct);
           this.close();
         });

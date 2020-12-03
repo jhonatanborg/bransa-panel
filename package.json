@@ -63,7 +63,8 @@
     "rules": {
       "space-before-function-paren": "off",
       "semi": "off",
-      "comma-dangle": "off"
+      "comma-dangle": "off",
+      "camelcase": "off"
     },
     "overrides": [
       {

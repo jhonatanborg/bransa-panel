@@ -7,6 +7,7 @@ const product = {
     dialogProduct: false,
     produtos: [],
     editProduct: null,
+    featured: null,
   }),
 
   getters: {},

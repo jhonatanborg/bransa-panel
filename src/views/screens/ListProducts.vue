@@ -16,44 +16,48 @@
         ></v-text-field>
       </v-col>
       <v-col class="py-0" cols="12">
-        <v-row dense justify="start" align="center">
-          <v-col cols="auto">
-            <v-chip
-              small
-              :loading="$store.state.loading"
-              outlined
-              v-if="filter.start !== 1"
-              color="primary"
-              @click="getProducts(filter, true)"
-              >Voltar</v-chip
-            >
-          </v-col>
-          <v-col
-            v-for="(categorie, index) in categories"
-            :key="index"
-            link
-            cols="auto"
-            @click="categorieFilter = index"
-          >
-            <v-chip
-              small
-              link
-              dark
-              :color="categorieFilter === index ? 'red lighten-1' : 'grey'"
-            >
-              <b v-text="categorie.produto_grupo"></b>
-            </v-chip>
-          </v-col>
-          <v-col cols="auto">
-            <v-chip
-              :loading="$store.state.loading"
-              color="primary"
-              @click="getProducts(filter)"
-              small
-              link
-              dark
-              >Avançar</v-chip
-            >
+        <v-row dense justify="space-between" align="center">
+          <v-col cols="10">
+            <v-row justify="start">
+              <v-col cols="auto">
+                <v-chip
+                  small
+                  :loading="$store.state.loading"
+                  outlined
+                  v-if="filter.start !== 1"
+                  color="primary"
+                  @click="getProducts(filter, true)"
+                  >Voltar</v-chip
+                ></v-col
+              >
+              <v-col
+                v-for="(categorie, index) in categories"
+                :key="index"
+                link
+                cols="auto"
+                @click="categorieFilter = index"
+              >
+                <v-chip
+                  small
+                  link
+                  dark
+                  :color="categorieFilter === index ? 'red lighten-1' : 'grey'"
+                >
+                  <b v-text="categorie.produto_grupo"></b>
+                </v-chip>
+              </v-col>
+              <v-col cols="auto">
+                <v-chip
+                  :loading="$store.state.loading"
+                  color="primary"
+                  @click="getProducts(filter)"
+                  small
+                  link
+                  dark
+                  >Avançar</v-chip
+                >
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-col>
@@ -157,6 +161,16 @@ export default {
         url,
         noMsg: true,
       });
+    },
+    getFeatured() {
+      this.$store
+        .dispatch("product/request", {
+          state: "featured",
+          method: "GET",
+          url: "/products-featured",
+          noMsg: true,
+        })
+        .then(this.$router.push({ name: "featured" }));
     },
   },
 };
