@@ -6,14 +6,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-        v-for="(item, index) in featured.filter(
-          (product) => product.produto_destaque === 'SIM'
-        )"
-        :key="index"
-        cols="12"
-        sm="6"
-      >
+      <v-col v-for="(item, index) in featured" :key="index" cols="12" sm="2">
         <CardProduct :product="item" :index="index" :indexCategorie="1" />
       </v-col>
     </v-row>
@@ -40,12 +33,18 @@ export default {
   },
   methods: {
     getFeatured() {
-      this.$store.dispatch("product/request", {
-        state: "featured",
-        method: "GET",
-        url: "/products-featured",
-        noMsg: true,
-      });
+      this.$store
+        .dispatch("product/request", {
+          method: "GET",
+          url: "/products-featured",
+          noMsg: true,
+        })
+        .then((value) => {
+          const featureds = value.data.filter(
+            (product) => product.produto_destaque === "SIM"
+          );
+          this.$store.commit("product/request", ["featured", featureds]);
+        });
     },
   },
 };

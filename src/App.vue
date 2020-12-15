@@ -1,8 +1,8 @@
 <template>
-  <v-app id="inspire">
+  <div id="inspire">
     <router-view></router-view>
     <MessageError />
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -14,9 +14,6 @@ export default {
 };
 </script>
 <style>
-.inspire {
-  font-family: "Ubuntu", sans-serif;
-}
 .code-product {
   font-size: 15px;
   font-weight: bold;

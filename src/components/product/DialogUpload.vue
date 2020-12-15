@@ -140,7 +140,14 @@ export default {
           noMsg: true,
         })
         .then((value) => {
-          this.$store.commit("product/setProduct", this.imageProduct);
+          if (this.$route.name !== "featured") {
+            value.data[0].produto_imagem = value.data[0].image.image;
+            this.$store.commit("product/setProduct", value.data[0]);
+          } else {
+            value.data[0].index = this.productSelected.index;
+            value.data[0].produto_imagem = value.data[0].image.image;
+            this.$store.commit("product/setProductFeatured", value.data[0]);
+          }
           this.close();
         });
     },
@@ -156,8 +163,11 @@ export default {
           noMsg: true,
         })
         .then((value) => {
+          console.log(value.data);
+          if (value.data.produto_destaque === "NAO") {
+            this.$store.commit("product/removeFeatured", value.data.produto_id);
+          }
           this.productSelected.produto_destaque = value.data.produto_destaque;
-          this.$store.commit("product/setProduct", this.imageProduct);
           this.close();
         });
     },

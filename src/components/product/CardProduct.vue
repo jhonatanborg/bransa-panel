@@ -1,28 +1,23 @@
 <template>
-  <v-card @click="edit(product, index, indexCategorie)" link flat outlined>
-    <v-list-item two-line>
-      <v-list-item-avatar tile size="100">
-        <v-img
-          height="100px"
-          width="100%"
-          v-if="product.produto_imagem"
-          :src="image(product.produto_imagem)"
-        >
-        </v-img>
-        <v-img height="100px" width="100%" v-else :src="image(null)"> </v-img>
-      </v-list-item-avatar>
-      <v-list-item-content>
+  <div>
+    <v-card @click="edit(product, index, indexCategorie)" flat max-width="100%">
+      <div class="pa-5">
         <div>
-          <span class="title-product" v-text="product.produto_descricao">
-          </span>
+          <v-img aspect-ratio="1.1" :src="image(product.produto_imagem)">
+          </v-img>
         </div>
-        <v-list-item-subtitle v-text="convertMoney(product.produto_valor)">
-        </v-list-item-subtitle>
-        <v-list-item-subtitle v-text="'CÓD:' + product.produto_codigo">
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-  </v-card>
+        <div class="title-product">
+          <span v-text="product.produto_descricao"> </span>
+        </div>
+        <div class="my-2">
+          <small v-text="'CÓD: ' + product.produto_codigo"></small>
+        </div>
+        <div>
+          <span v-text="convertMoney(product.produto_valor)"> </span>
+        </div>
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -35,18 +30,20 @@ export default {
     indexCategorie: Number,
   },
   mixins: [Mixins],
+  computed: {},
   methods: {
-    edit(product, index, indexCategorie) {
-      product.index = index;
-      product.indexCategorie = indexCategorie;
-      this.$store.commit("product/request", ["editProduct", product]);
+    edit(produto, index, indexCategorie) {
+      produto.index = index;
+      produto.indexCategorie = indexCategorie;
+      this.$store.commit("product/request", ["editProduct", produto]);
       this.$store.commit("product/request", ["dialogProduct", true]);
     },
     image(image) {
-      if (image && image.indexOf("blob") >= 0) {
+      if (!image) {
+        return "https://i.imgur.com/Ho0V1gI.jpg";
+      } else if (image && image.toString().indexOf("blob") >= 0) {
+        console.log("entrou no blob");
         return image;
-      } else if (!image) {
-        return "https://i.imgur.com/ha7VmCQ.png";
       } else {
         return this.$store.state.server + image;
       }
@@ -66,11 +63,14 @@ export default {
   border-radius: 4px;
 }
 .title-product {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 15px;
+  text-transform: lowercase;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-line-clamp: 3; /* number of lines to show */
   -webkit-box-orient: vertical;
-  font-size: 14px;
 }
 </style>

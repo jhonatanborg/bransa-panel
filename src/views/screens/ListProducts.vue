@@ -4,7 +4,6 @@
       <v-col cols="12">
         <small>Pesquisar</small>
         <v-text-field
-          solo
           v-model="search"
           :loading="$store.state.loading"
           :search-input.sync="search"
@@ -17,7 +16,7 @@
       </v-col>
       <v-col class="py-0" cols="12">
         <v-row dense justify="space-between" align="center">
-          <v-col cols="10">
+          <v-col cols="12">
             <v-row justify="start">
               <v-col cols="auto">
                 <v-chip
@@ -70,7 +69,7 @@
         v-for="(product, index) in selectCategorie.produtos"
         :key="index"
         cols="12"
-        sm="6"
+        sm="2"
       >
         <CardProduct
           :product="product"
@@ -104,7 +103,7 @@ export default {
       links: ["Dashboard", "Messages", "Profile", "Updates"],
       filter: {
         start: 1,
-        end: 5,
+        end: 8,
       },
       categorieFilter: 0,
     };
@@ -134,6 +133,9 @@ export default {
       }
       return 0;
     },
+    products() {
+      return this.$store.getters["product/getProducts"] || {};
+    },
   },
   methods: {
     getProducts(filter, minus) {
@@ -141,7 +143,7 @@ export default {
       if (!minus && filter) {
         filter = {
           start: parseInt(filter.start) + 1,
-          end: 5,
+          end: 8,
         };
         this.filter = filter;
         url = `/products-paginate/${filter.start}/${filter.end}`;
@@ -150,7 +152,7 @@ export default {
       } else if (filter.start !== 1) {
         filter = {
           start: parseInt(filter.start) - 1,
-          end: 5,
+          end: 8,
         };
         this.filter = filter;
         url = `/products-paginate/${filter.start}/${filter.end}`;

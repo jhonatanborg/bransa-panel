@@ -13,21 +13,23 @@ const product = {
   getters: {},
   mutations: {
     setProduct(state, data) {
-      if (
-        state.produtos[state.editProduct.indexCategorie].produtos[
-          state.editProduct.index
-        ].image
-      ) {
-        state.produtos[state.editProduct.indexCategorie].produtos[
-          state.editProduct.index
-        ].image.image = data;
-      } else {
-        state.produtos[state.editProduct.indexCategorie].produtos[
-          state.editProduct.index
-        ].image = { image: data };
-      }
-    },
+      const products = [...state.produtos];
 
+      products[state.editProduct.indexCategorie].produtos[
+        state.editProduct.index
+      ] = data;
+
+      state.produtos = products;
+    },
+    setProductFeatured(state, data) {
+      const products = [...state.featured];
+      products[data.index] = data;
+      state.featured = products;
+    },
+    removeFeatured(state, data) {
+      const products = [...state.featured];
+      state.featured = products.filter((item) => item.produto_id !== data);
+    },
     ...mutationsGlobal,
   },
   actions: { ...actionsGlobal },

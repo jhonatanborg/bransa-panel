@@ -1,6 +1,11 @@
 <template>
-  <div class="section fill-height">
-    <v-row justify="center" no-gutters class="fill-height" align="center">
+  <v-app class="section fill-height">
+    <v-row
+      justify="center"
+      no-gutters
+      class="fill-height light-blue accent-4"
+      align="center"
+    >
       <v-col cols="12" sm="4" md="4" lg="4">
         <v-card rounded="8" elevation="15" :loading="$store.state.loading">
           <div class="pa-5">
@@ -46,7 +51,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </div>
+  </v-app>
 </template>
 
 <script>
