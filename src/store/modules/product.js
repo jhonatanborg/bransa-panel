@@ -14,7 +14,6 @@ const product = {
   mutations: {
     setProduct(state, data) {
       const products = [...state.produtos];
-
       products[state.editProduct.indexCategorie].produtos[
         state.editProduct.index
       ] = data;

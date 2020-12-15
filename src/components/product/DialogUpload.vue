@@ -54,6 +54,7 @@
             block
             @click="toggleFeatured('SIM')"
             outlined
+            :disabled="$store.state.loading"
             color="primary"
             >Colocar em destaque</v-btn
           >
@@ -62,13 +63,22 @@
             class="my-2"
             depressed
             large
+            :dark="!$store.state.loading"
             block
+            :disabled="$store.state.loading"
             outlined
             @click="toggleFeatured('NAO')"
             color="error"
             >Remover destaque</v-btn
           >
-          <v-btn @click="uploadImage" large block color="primary">Salvar</v-btn>
+          <v-btn
+            :disabled="$store.state.loading"
+            @click="uploadImage"
+            large
+            block
+            color="primary"
+            >Salvar</v-btn
+          >
         </div>
       </div>
     </v-card>
@@ -141,12 +151,11 @@ export default {
         })
         .then((value) => {
           if (this.$route.name !== "featured") {
-            value.data[0].produto_imagem = value.data[0].image.image;
-            this.$store.commit("product/setProduct", value.data[0]);
+            value.data.produto_destaque = this.productSelected.produto_destaque;
+            this.$store.commit("product/setProduct", value.data);
           } else {
-            value.data[0].index = this.productSelected.index;
-            value.data[0].produto_imagem = value.data[0].image.image;
-            this.$store.commit("product/setProductFeatured", value.data[0]);
+            value.data.index = this.productSelected.index;
+            this.$store.commit("product/setProductFeatured", value.data);
           }
           this.close();
         });
@@ -163,7 +172,6 @@ export default {
           noMsg: true,
         })
         .then((value) => {
-          console.log(value.data);
           if (value.data.produto_destaque === "NAO") {
             this.$store.commit("product/removeFeatured", value.data.produto_id);
           }

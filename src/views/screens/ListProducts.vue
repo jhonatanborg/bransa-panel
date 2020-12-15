@@ -69,7 +69,8 @@
         v-for="(product, index) in selectCategorie.produtos"
         :key="index"
         cols="12"
-        sm="2"
+        sm="4"
+        md="2"
       >
         <CardProduct
           :product="product"
