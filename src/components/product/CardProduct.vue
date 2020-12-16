@@ -3,7 +3,11 @@
     <v-card @click="edit(product, index, indexCategorie)" flat max-width="100%">
       <div class="pa-5">
         <div>
-          <v-img aspect-ratio="1.1" :src="image(product.produto_imagem)">
+          <v-img
+            contain
+            aspect-ratio="1.1"
+            :src="image(product.produto_imagem)"
+          >
           </v-img>
         </div>
         <div class="title-product">

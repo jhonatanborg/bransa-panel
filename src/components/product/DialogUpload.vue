@@ -25,6 +25,7 @@
         </v-row>
         <a
           ><v-img
+            contain
             @click="setImage"
             height="300px"
             :src="returnImage(imageProduct)"
@@ -134,7 +135,7 @@ export default {
         return (this.imageProduct =
           this.$store.state.server + this.productSelected.produto_imagem);
       } else {
-        return "https://i.imgur.com/ha7VmCQ.png";
+        return "https://i.imgur.com/Ho0V1gI.jpg";
       }
     },
     uploadImage() {
