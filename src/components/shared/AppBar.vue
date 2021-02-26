@@ -40,6 +40,11 @@ export default {
         icon: "mdi-account-multiple",
         route: "featured",
       },
+      {
+        title: "Aviso",
+        icon: "mdi-information",
+        route: "information",
+      },
     ],
   }),
   computed: {

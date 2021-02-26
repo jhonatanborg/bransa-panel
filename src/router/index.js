@@ -27,6 +27,11 @@ const routes = [
         name: "featured",
         component: () => import("@/views/screens/FeaturedProducts.vue"),
       },
+      {
+        path: "/avisos",
+        name: "information",
+        component: () => import("@/views/screens/Information.vue"),
+      },
     ],
   },
   {

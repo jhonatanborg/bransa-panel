@@ -5,10 +5,13 @@ const user = {
   namespaced: true,
   state: () => ({
     user: null,
+    message: null,
   }),
 
   getters: {},
-  mutations: { ...mutationsGlobal },
+  mutations: {
+    ...mutationsGlobal,
+  },
   actions: { ...actionsGlobal },
 };
 
