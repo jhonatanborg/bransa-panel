@@ -44,7 +44,7 @@ export default {
     },
     image(image) {
       if (!image) {
-        return "https://i.imgur.com/Ho0V1gI.jpg";
+        return "https://i.imgur.com/jcWYGjx.png";
       } else if (image && image.toString().indexOf("blob") >= 0) {
         console.log("entrou no blob");
         return image;

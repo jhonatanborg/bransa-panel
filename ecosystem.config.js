@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "bransa-panel",
+      name: "admin-alibaba",
       script: "npm",
       args: "run deploy",
       watch: false,

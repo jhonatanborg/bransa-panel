@@ -98,13 +98,13 @@ export default {
       link: null,
       image: null,
       imageUrl: null,
-      imageProduct: null,
+      imageProduct: null
     };
   },
   computed: {
     productSelected() {
       return this.$store.state.product.editProduct || {};
-    },
+    }
   },
   methods: {
     setProductFeatured(value) {
@@ -135,7 +135,7 @@ export default {
         return (this.imageProduct =
           this.$store.state.server + this.productSelected.produto_imagem);
       } else {
-        return "https://i.imgur.com/Ho0V1gI.jpg";
+        return "https://i.imgur.com/jcWYGjx.png";
       }
     },
     uploadImage() {
@@ -148,7 +148,7 @@ export default {
           method: "POST",
           data: formData,
           url: "/image",
-          noMsg: true,
+          noMsg: true
         })
         .then((value) => {
           if (this.$route.name !== "featured") {
@@ -167,10 +167,10 @@ export default {
           method: "PUT",
           data: {
             produto_id2: this.productSelected.produto_id2,
-            produto_destaque,
+            produto_destaque
           },
           url: "/products/" + this.productSelected.produto_id,
-          noMsg: true,
+          noMsg: true
         })
         .then((value) => {
           if (value.data.produto_destaque === "NAO") {
@@ -179,8 +179,8 @@ export default {
           this.productSelected.produto_destaque = value.data.produto_destaque;
           this.close();
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
