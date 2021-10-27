@@ -46,6 +46,13 @@
               ></a>
             </v-row> </v-img
         ></a>
+        <v-textarea
+          outlined
+          value="Aqui"
+          placeholder="Descrição"
+          v-model="description"
+        ></v-textarea>
+
         <div class="my-5">
           <v-btn
             v-if="productSelected.produto_destaque === 'NAO'"
@@ -74,7 +81,7 @@
           >
           <v-btn
             :disabled="$store.state.loading"
-            @click="uploadImage"
+            @click="saveProduct"
             large
             block
             color="primary"
@@ -98,12 +105,18 @@ export default {
       link: null,
       image: null,
       imageUrl: null,
-      imageProduct: null
+      imageProduct: null,
+      description: null
     };
   },
   computed: {
     productSelected() {
       return this.$store.state.product.editProduct || {};
+    }
+  },
+  watch: {
+    productSelected(value) {
+      this.description = value.produto_especificacoes;
     }
   },
   methods: {
@@ -137,6 +150,11 @@ export default {
       } else {
         return "https://i.imgur.com/jcWYGjx.png";
       }
+    },
+    saveProduct() {
+      console.log(this.productSelected);
+      this.description && this.saveDescription();
+      this.imageSend && this.uploadImage();
     },
     uploadImage() {
       const formData = new FormData();
@@ -177,6 +195,22 @@ export default {
             this.$store.commit("product/removeFeatured", value.data.produto_id);
           }
           this.productSelected.produto_destaque = value.data.produto_destaque;
+          this.close();
+        });
+    },
+    saveDescription() {
+      this.$store
+        .dispatch("user/request", {
+          method: "PUT",
+          data: {
+            produto_id2: this.productSelected.produto_id2,
+            produto_especificacoes: this.description
+          },
+          url: "/products/" + this.productSelected.produto_id,
+          noMsg: true
+        })
+        .then((value) => {
+          this.description = null;
           this.close();
         });
     }
