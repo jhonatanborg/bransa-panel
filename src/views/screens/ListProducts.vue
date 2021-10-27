@@ -9,7 +9,7 @@
           :search-input.sync="search"
           hide-no-data
           hide-selected
-          placeholder="Buscar por categoria"
+          placeholder="Buscar produto"
           append-icon="mdi-magnify"
           return-object
         ></v-text-field>
@@ -89,7 +89,7 @@ import DialogUpload from "@/components/product/DialogUpload.vue";
 export default {
   components: {
     CardProduct,
-    DialogUpload,
+    DialogUpload
   },
   mounted() {
     this.getProducts();
@@ -104,9 +104,9 @@ export default {
       links: ["Dashboard", "Messages", "Profile", "Updates"],
       filter: {
         start: 1,
-        end: 8,
+        end: 8
       },
-      categorieFilter: 0,
+      categorieFilter: 0
     };
   },
   watch: {
@@ -116,13 +116,13 @@ export default {
           state: "produtos",
           method: "POST",
           data: {
-            produto_grupo: val,
+            produto_descricao: val
           },
-          url: "/category/",
-          noMsg: true,
+          url: "/product-filter/",
+          noMsg: true
         });
       }
-    },
+    }
   },
   computed: {
     categories() {
@@ -136,7 +136,7 @@ export default {
     },
     products() {
       return this.$store.getters["product/getProducts"] || {};
-    },
+    }
   },
   methods: {
     getProducts(filter, minus) {
@@ -144,7 +144,7 @@ export default {
       if (!minus && filter) {
         filter = {
           start: parseInt(filter.start) + 1,
-          end: 8,
+          end: 8
         };
         this.filter = filter;
         url = `/products-paginate/${filter.start}/${filter.end}`;
@@ -153,7 +153,7 @@ export default {
       } else if (filter.start !== 1) {
         filter = {
           start: parseInt(filter.start) - 1,
-          end: 8,
+          end: 8
         };
         this.filter = filter;
         url = `/products-paginate/${filter.start}/${filter.end}`;
@@ -162,7 +162,7 @@ export default {
         state: "produtos",
         method: "GET",
         url,
-        noMsg: true,
+        noMsg: true
       });
     },
     getFeatured() {
@@ -171,11 +171,11 @@ export default {
           state: "featured",
           method: "GET",
           url: "/products-featured",
-          noMsg: true,
+          noMsg: true
         })
         .then(this.$router.push({ name: "featured" }));
-    },
-  },
+    }
+  }
 };
 </script>
 <style></style>

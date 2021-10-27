@@ -152,7 +152,6 @@ export default {
       }
     },
     saveProduct() {
-      console.log(this.productSelected);
       this.description && this.saveDescription();
       this.imageSend && this.uploadImage();
     },
