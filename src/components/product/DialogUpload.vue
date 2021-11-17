@@ -46,12 +46,14 @@
               ></a>
             </v-row> </v-img
         ></a>
-        <v-textarea
+        <!-- <v-textarea
           outlined
           value="Aqui"
-          placeholder="Descrição"
+          placeholder="Especificações técnicas"
           v-model="description"
-        ></v-textarea>
+        ></v-textarea> -->
+
+        <VueEditor v-model="description" />
 
         <div class="my-5">
           <v-btn
@@ -94,7 +96,12 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
+
 export default {
+  components: {
+    VueEditor,
+  },
   data() {
     return {
       imageSend: null,
@@ -106,18 +113,18 @@ export default {
       image: null,
       imageUrl: null,
       imageProduct: null,
-      description: null
+      description: null,
     };
   },
   computed: {
     productSelected() {
       return this.$store.state.product.editProduct || {};
-    }
+    },
   },
   watch: {
     productSelected(value) {
       this.description = value.produto_especificacoes;
-    }
+    },
   },
   methods: {
     setProductFeatured(value) {
@@ -165,7 +172,7 @@ export default {
           method: "POST",
           data: formData,
           url: "/image",
-          noMsg: true
+          noMsg: true,
         })
         .then((value) => {
           if (this.$route.name !== "featured") {
@@ -184,10 +191,10 @@ export default {
           method: "PUT",
           data: {
             produto_id2: this.productSelected.produto_id2,
-            produto_destaque
+            produto_destaque,
           },
           url: "/products/" + this.productSelected.produto_id,
-          noMsg: true
+          noMsg: true,
         })
         .then((value) => {
           if (value.data.produto_destaque === "NAO") {
@@ -203,17 +210,17 @@ export default {
           method: "PUT",
           data: {
             produto_id2: this.productSelected.produto_id2,
-            produto_especificacoes: this.description
+            produto_especificacoes: this.description,
           },
           url: "/products/" + this.productSelected.produto_id,
-          noMsg: true
+          noMsg: true,
         })
         .then((value) => {
           this.description = null;
           this.close();
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
